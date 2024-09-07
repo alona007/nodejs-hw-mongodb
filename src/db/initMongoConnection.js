@@ -7,6 +7,12 @@ export async function initMongoDB() {
   const url = env('MONGODB_URL');
   const db = env('MONGODB_DB');
 
+  if (!user || !password || !url || !db) {
+    throw new Error(
+      'Missing one or more environment variables for MongoDB connection',
+    );
+  }
+
   const uri = `mongodb+srv://${user}:${password}@${url}/${db}?retryWrites=true&w=majority`;
 
   try {
