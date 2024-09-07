@@ -21,6 +21,7 @@ const contactSchema = new Schema(
     contactType: {
       type: String,
       enum: ['personal', 'home'],
+      default: 'personal',
       required: true,
     },
   },
@@ -30,4 +31,4 @@ const contactSchema = new Schema(
   },
 );
 
-export const ContactsCollection = model('contact', contactSchema);
+export const ContactsCollection = model('Contact', contactSchema);
