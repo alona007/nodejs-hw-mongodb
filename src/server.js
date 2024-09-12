@@ -5,7 +5,7 @@ import { env } from './utils/env.js';
 import contactsRouter from './routes/contacts.js';
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
-
+//import validateBody from './middlewares/validateBody.js';
 const PORT = Number(env('PORT', '3000'));
 
 export const startServer = () => {
@@ -24,7 +24,6 @@ export const startServer = () => {
   app.use('/contacts', contactsRouter);
 
   app.use(notFoundHandler);
-
   app.use(errorHandler);
 
   app.listen(PORT, () => {
