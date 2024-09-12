@@ -1,11 +1,14 @@
-import Joi from 'joi';
+//import Joi from 'joi';
+import createError from 'http-errors';
 
-const contactSchema = Joi.object({
-  name: Joi.string().min(3).max(20).required(),
-  phoneNumber: Joi.string().min(3).max(20).required(),
-  email: Joi.string().email().optional().allow(null),
-  isFavourite: Joi.boolean().optional(),
-  contactType: Joi.string().valid('personal', 'home').required(),
-});
+const validateBody = (schema) => {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return next(createError(400, error.message));
+    }
+    next();
+  };
+};
 
-export default contactSchema;
+export default validateBody;
