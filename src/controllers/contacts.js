@@ -1,4 +1,4 @@
-import { ContactsCollection } from '../db/models/contacts.js';
+import { ContactsCollection } from '../models/contacts.js';
 import createError from 'http-errors';
 import Joi from 'joi';
 
