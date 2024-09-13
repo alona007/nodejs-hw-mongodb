@@ -1,4 +1,4 @@
-import { ContactsCollection } from '../models/contacts.js';
+import { ContactsCollection } from '../db/models/contacts.js';
 import createError from 'http-errors';
 import Joi from 'joi';
 
@@ -7,7 +7,7 @@ const createContactSchema = Joi.object({
   phoneNumber: Joi.string().required(),
   email: Joi.string().email().optional(),
   isFavourite: Joi.boolean().optional(),
-  contactType: Joi.string().valid('family', 'friend', 'work').required(),
+  contactType: Joi.string().valid('work', 'home', 'personal').required(),
 });
 
 const updateContactSchema = Joi.object({
@@ -15,7 +15,7 @@ const updateContactSchema = Joi.object({
   phoneNumber: Joi.string(),
   email: Joi.string().email(),
   isFavourite: Joi.boolean(),
-  contactType: Joi.string().valid('family', 'friend', 'work'),
+  contactType: Joi.string().valid('work', 'home', 'personal'),
 }).or('name', 'phoneNumber', 'email', 'isFavourite', 'contactType');
 
 export const getAllContacts = async (req, res, next) => {
