@@ -1,23 +1,22 @@
 import Joi from 'joi';
-
-import { contactList, createdAtRegexp } from '../constants/contacts.js';
+import { contactList } from '../constants/contacts.js';
 
 export const contactAddSchema = Joi.object({
   name: Joi.string().required(),
+  email: Joi.string().email().required(),
   phoneNumber: Joi.string().required().messages({
-    'any.required': 'number must be exist',
+    'any.required': 'number must exist',
   }),
   contactType: Joi.string()
     .valid(...contactList)
     .required(),
   isFavourite: Joi.boolean(),
-  createdAt: Joi.string().pattern(createdAtRegexp).required(),
 });
 
 export const contactPatchSchema = Joi.object({
-  title: Joi.string(),
-  director: Joi.string(),
-  genre: Joi.string().valid(...contactList),
-  favorite: Joi.boolean(),
-  releaseYear: Joi.string(),
+  name: Joi.string(),
+  email: Joi.string().email(),
+  phoneNumber: Joi.string(),
+  contactType: Joi.string().valid(...contactList),
+  isFavourite: Joi.boolean(),
 });
