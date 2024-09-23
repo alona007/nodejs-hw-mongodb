@@ -1,7 +1,5 @@
 import { Schema, model } from 'mongoose';
-
-import { createdAtRegexp } from '../constants/contacts.js';
-
+import { contactList } from '../constants/contacts.js';
 import { handleSaveError, setUpdateOptions } from './hooks.js';
 
 const contactSchema = new Schema(
@@ -14,47 +12,38 @@ const contactSchema = new Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+      required: false,
+    },
     isFavourite: {
       type: Boolean,
       default: false,
-      required: true,
     },
     contactType: {
       type: String,
-      enum: ['personal', 'home'],
       required: true,
+      enum: contactList,
+      default: 'personal',
     },
-    createdAt: {
-      type: String,
-      match: createdAtRegexp,
-      required: true,
-    },
-    // updatedAt:{
-    //     type: String,
-    //     required: true,
-    // }
   },
-  { versionKey: false, timestamps: true },
+  { timestamps: true, versionKey: false },
 );
-
 contactSchema.post('save', handleSaveError);
 
 contactSchema.pre('findOneAndUpdate', setUpdateOptions);
 
 contactSchema.post('findOneAndUpdate', handleSaveError);
 
-const ContactCollection = model('contact', contactSchema);
+const ContactsCollection = model('contact', contactSchema);
 
-export const sortFields = [
-  'title',
-  'director',
-  'genre',
-  'favorite',
-  'releaseYear',
+export const sortFilds = [
+  'name',
+  'phoneNumber',
+  'email',
+  'isFavourite',
+  'contactType',
   'createdAt',
-  'updatedAt',
+  'updateAt',
 ];
-
-// const ContactCollection = model("contact", contactSchema);
-
-export default ContactCollection;
+export default ContactsCollection;
