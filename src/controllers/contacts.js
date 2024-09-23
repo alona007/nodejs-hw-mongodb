@@ -1,9 +1,21 @@
 import createHttpError from 'http-errors';
-
 import * as contactServices from '../services/contacts.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllContactsController = async (req, res) => {
-  const data = await contactServices.getAllContacts();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+  const filters = parseFilterParams(req.query);
+
+  const data = await contactServices.getAllContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filters,
+  });
 
   res.json({
     status: 200,
@@ -22,7 +34,7 @@ export const getContactByIdController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: `Contact with ${id} successfully find`,
+    message: `Contact with ${id} successfully found`,
     data,
   });
 };
@@ -32,7 +44,7 @@ export const addContactController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: 'Contact add successfully',
+    message: 'Contact added successfully',
     data,
   });
 };
@@ -49,7 +61,7 @@ export const upsertContactController = async (req, res) => {
 
   res.status(status).json({
     status,
-    message: 'Contact upsert successfully',
+    message: 'Contact upserted successfully',
     data,
   });
 };

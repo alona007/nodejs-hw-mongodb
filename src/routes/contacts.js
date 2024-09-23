@@ -7,6 +7,7 @@ import validateBody from '../utils/validateBody.js';
 import {
   contactAddSchema,
   contactPatchSchema,
+  contactPutSchema,
 } from '../validation/contacts.js';
 
 const contactsRouter = Router();
@@ -22,12 +23,16 @@ contactsRouter.get(
   ctrlWrapper(contactControllers.getContactByIdController),
 );
 
-contactsRouter.post('/', ctrlWrapper(contactControllers.addContactController));
+contactsRouter.post(
+  '/',
+  validateBody(contactAddSchema),
+  ctrlWrapper(contactControllers.addContactController),
+);
 
 contactsRouter.put(
   '/:id',
   isValidId,
-  validateBody(contactAddSchema),
+  validateBody(contactPutSchema),
   ctrlWrapper(contactControllers.upsertContactController),
 );
 
