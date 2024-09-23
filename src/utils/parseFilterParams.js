@@ -5,11 +5,11 @@ const parseBoolean = (value) => {
   return undefined;
 };
 
-const parseString = (value) => {
-  if (typeof value === 'string') {
-    return value.trim() || undefined;
-  }
-  return undefined;
+const parseString = (contactType) => {
+  if (typeof contactType !== 'string') return undefined;
+
+  const validContactTypes = ['work', 'home', 'personal'];
+  return validContactTypes.includes(contactType) ? contactType : undefined;
 };
 
 export const parseFilterParams = (query) => {
