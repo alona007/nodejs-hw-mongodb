@@ -5,14 +5,12 @@ import { env } from './utils/env.js';
 
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
-// import logger from "../src/middlewares/loger.js";
 
 import contactsRouter from './routes/contacts.js';
 
 export const startServer = () => {
   const app = express();
 
-  // app.use(logger);
   app.use(cors());
   app.use(express.json());
 
