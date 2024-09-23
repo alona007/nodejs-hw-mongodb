@@ -75,7 +75,7 @@ export const contactPatchSchema = Joi.object({
   }),
 });
 
-const dataToValidate = {
+/*const dataToValidate = {
   name: 'Jo',
   email: 'invalid-email',
   phoneNumber: '',
@@ -89,4 +89,4 @@ if (validationResult.error) {
   console.error(validationResult.error.details);
 } else {
   console.log('Data is valid!');
-}
+}*/
