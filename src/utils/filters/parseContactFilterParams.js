@@ -1,12 +1,9 @@
-import parseInteger from './parseNumber.js';
+import parseString from './parsString.js';
 
-const parseContactFilterParams = ({ minReleaseYear, maxReleaseYear }) => {
-  const parsedMinReleaseYear = parseInteger(minReleaseYear);
-  const parsedMaxReleaseYear = parseInteger(maxReleaseYear);
-
+const parseContactFilterParams = ({ contactType }) => {
+  const parsedContactType = parseString(contactType);
   return {
-    minReleaseYear: parsedMinReleaseYear,
-    maxReleaseYear: parsedMaxReleaseYear,
+    contactType: parsedContactType,
   };
 };
 
