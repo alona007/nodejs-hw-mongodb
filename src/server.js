@@ -2,15 +2,15 @@ import express from 'express';
 import cors from 'cors';
 
 import { env } from './utils/env.js';
-
 import notFoundHandler from './middlewares/notFoundHandler.js';
-import errorHandler from './middlewares/errorHandler.js';
-
-import contactsRouter from './routes/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import loggerHandler from './middlewares/loggerHandler.js';
+import contactsRouter from './routers/contacts.js';
 
 export const startServer = () => {
   const app = express();
 
+  app.use(loggerHandler);
   app.use(cors());
   app.use(express.json());
 

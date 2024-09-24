@@ -1,33 +1,20 @@
 import Joi from 'joi';
-import { contactList } from '../constants/contacts.js';
+import { contactTypeList } from '../constants/contacts.js';
 
-const maxReleaseYear = new Date().getFullYear();
-
-export const contactAddSchema = Joi.object({
-  name: Joi.string().min(3).max(30).required(),
+export const ContactSchema = Joi.object({
+  name: Joi.string().min(3).max(20).required(),
+  phoneNumber: Joi.string().min(10).max(13).required(),
   email: Joi.string().email().required(),
-  phoneNumber: Joi.string().required(),
-  contactType: Joi.string()
-    .valid(...contactList)
-    .required(),
+  age: Joi.number().integer().min(6).max(16),
   isFavourite: Joi.boolean(),
-  releaseYear: Joi.number().min(1895).max(maxReleaseYear),
+  contactType: Joi.string().valid(...contactTypeList),
 });
 
-export const contactPutSchema = Joi.object({
-  name: Joi.string().min(3).max(30),
+export const patchContactSchema = Joi.object({
+  name: Joi.string().min(3).max(20),
+  phoneNumber: Joi.string().min(10).max(13),
   email: Joi.string().email(),
-  phoneNumber: Joi.string(),
-  contactType: Joi.string().valid(...contactList),
+  age: Joi.number().integer().min(6).max(16),
   isFavourite: Joi.boolean(),
-  releaseYear: Joi.number().min(1895).max(maxReleaseYear),
-});
-
-export const contactPatchSchema = Joi.object({
-  name: Joi.string().min(3).max(30),
-  email: Joi.string().email(),
-  phoneNumber: Joi.string(),
-  contactType: Joi.string().valid(...contactList),
-  isFavourite: Joi.boolean(),
-  releaseYear: Joi.number().min(1895).max(maxReleaseYear),
+  contactType: Joi.string(),
 });
