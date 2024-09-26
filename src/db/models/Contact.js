@@ -31,9 +31,14 @@ const contactsSchema = new Schema(
       ref: 'user',
       required: true,
     },
+    photo: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true, versionKey: false }
 );
+
 contactsSchema.post('save', handleSaveError);
 contactsSchema.post('findOneAndUpdate', handleSaveError);
 contactsSchema.pre('findOneAndUpdate', setUpdateOptions);
@@ -48,4 +53,5 @@ export const sortFilds = [
   'createdAt',
   'updateAt',
 ];
+
 export default ContactsCollection;

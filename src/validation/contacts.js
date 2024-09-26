@@ -8,6 +8,7 @@ export const ContactSchema = Joi.object({
   age: Joi.number().integer().min(6).max(16),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid(...contactTypeList),
+  photo: Joi.string().uri().optional(),
 });
 
 export const patchContactSchema = Joi.object({
@@ -17,4 +18,5 @@ export const patchContactSchema = Joi.object({
   age: Joi.number().integer().min(6).max(16),
   isFavourite: Joi.boolean(),
   contactType: Joi.string(),
+  photo: Joi.string().uri().optional(),
 });
