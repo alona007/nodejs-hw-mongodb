@@ -4,13 +4,17 @@ import parsePaginationParams from '../utils/parsePaginationParams.js';
 import parseSortParams from '../utils/parseSortParams.js';
 import parseContactFilterParams from '../utils/filters/parseContactFilterParams.js';
 import { sortFilds } from '../db/models/Contact.js';
-import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs';
+import saveFileToUploadDir from '../utils/saveFileToUploadDir.js';
+import saveFileToCloudinary from '../utils/saveFileToCloudinary.js';
+import { env } from '../utils/env.js';
+
+const enableCloudinary = env('ENABLE_CLOUDINARY');
 
 export const getAllContactsControllers = async (req, res, next) => {
   const { perPage, page } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams({ ...req.query, sortFilds });
   const filter = parseContactFilterParams(req.query);
+
   const { _id: userId } = req.user;
 
   const data = await ContactsServices.getAllContacts({
@@ -43,29 +47,31 @@ export const getAllContactsByIdController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: `Contact with ${id} successfully found`,
+    message: `Contact with ${id} successfully find`,
     data,
   });
 };
 
 export const addContactController = async (req, res) => {
-  const { _id: userId } = req.user;
-  let photoUrl;
-
+  let photo;
   if (req.file) {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    photoUrl = result.secure_url;
-    fs.unlinkSync(req.file.path);
+    if (enableCloudinary === 'true') {
+      photo = await saveFileToCloudinary(req.file, 'photo');
+    } else {
+      photo = await saveFileToUploadDir(req.file);
+    }
   }
 
+  const { _id: userId } = req.user;
   const data = await ContactsServices.createContact({
     ...req.body,
     userId,
-    photo: photoUrl,
+    photo,
   });
+
   res.status(201).json({
     status: 201,
-    message: 'Contact added successfully!',
+    message: 'Contact add successfully!',
     data,
   });
 };
@@ -73,17 +79,9 @@ export const addContactController = async (req, res) => {
 export const upsertContactController = async (req, res, next) => {
   const { id } = req.params;
   const { _id: userId } = req.user;
-  let photoUrl;
-
-  if (req.file) {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    photoUrl = result.secure_url;
-    fs.unlinkSync(req.file.path);
-  }
-
   const { isNew, data } = await ContactsServices.updateContact(
     { _id: id, userId },
-    { ...req.body, photo: photoUrl },
+    req.body,
     {
       upsert: true,
     }
@@ -100,24 +98,26 @@ export const upsertContactController = async (req, res, next) => {
   });
 };
 
-export const patchContactController = async (req, res) => {
-  const { id } = req.params;
-  const { _id: userId } = req.user;
-  let photoUrl;
-
+export const patchContactController = async (req, res, next) => {
+  let photo;
   if (req.file) {
-    const result = await cloudinary.uploader.upload(req.file.path);
-    photoUrl = result.secure_url;
-    fs.unlinkSync(req.file.path);
+    if (enableCloudinary === 'true') {
+      photo = await saveFileToCloudinary(req.file, 'photo');
+    } else {
+      photo = await saveFileToUploadDir(req.file);
+    }
   }
 
-  const result = await ContactsServices.updateContact(
-    { _id: id, userId },
-    { ...req.body, photo: photoUrl }
-  );
+  const { _id: userId } = req.user;
+  const result = await ContactsServices.createContact({
+    ...req.body,
+    userId,
+    photo,
+  });
 
   if (!result) {
-    throw createHttpError(404, `Contact with id=${id} not found`);
+    next(createHttpError(404, 'Contact not found'));
+    return;
   }
   res.json({
     status: 200,

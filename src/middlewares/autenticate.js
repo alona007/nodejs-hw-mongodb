@@ -13,7 +13,7 @@ const authenticate = async (req, res, next) => {
 
   if (bearer !== 'Bearer') {
     return next(
-      createHttpError(401, 'Authorization header must have Bearer type'),
+      createHttpError(401, 'Authorization header must have Bearer type')
     );
   }
 

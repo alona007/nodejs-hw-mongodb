@@ -26,7 +26,7 @@ const sessionSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false, timestamps: true },
+  { versionKey: false, timestamps: true }
 );
 
 sessionSchema.post('save', handleSaveError);
