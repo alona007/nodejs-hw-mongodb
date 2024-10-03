@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import multer from 'multer';
 import {
   getAllContactsControllers,
   getAllContactsByIdController,
@@ -12,11 +11,10 @@ import validateBody from '../utils/validateBody.js';
 import { ContactSchema, patchContactSchema } from '../validation/contacts.js';
 import authenticate from '../middlewares/autenticate.js';
 import isValidId from '../middlewares/isValidId.js';
+import upload from '../middlewares/multer.js';
+
 import ctrlWrapper from '../utils/ctrlWrapper.js';
-
 const contactsRouter = Router();
-
-const upload = multer({ dest: 'uploads/' });
 
 contactsRouter.use(authenticate);
 

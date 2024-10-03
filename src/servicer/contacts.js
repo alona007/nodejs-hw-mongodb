@@ -39,9 +39,9 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContact = (filter) => ContactsCollection.findOne(filter);
+export const getContact = filter => ContactsCollection.findOne(filter);
 
-export const createContact = (payload) => ContactsCollection.create(payload);
+export const createContact = payload => ContactsCollection.create(payload);
 
 export const updateContact = async (filter, data, options = {}) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(filter, data, {
@@ -59,5 +59,5 @@ export const updateContact = async (filter, data, options = {}) => {
   };
 };
 
-export const deleteContact = (filter) =>
+export const deleteContact = filter =>
   ContactsCollection.findOneAndDelete(filter);

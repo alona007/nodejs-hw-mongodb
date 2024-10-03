@@ -1,8 +1,8 @@
-const parseString = (contactType) => {
+const parseString = contactType => {
   const isString = typeof contactType === 'string';
   if (!isString) return;
 
-  const isContactType = (contactType) =>
+  const isContactType = contactType =>
     ['work', 'home', 'personal'].includes(contactType);
 
   if (isContactType(contactType)) return contactType;
