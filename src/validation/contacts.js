@@ -4,11 +4,10 @@ import { contactTypeList } from '../constants/contacts.js';
 export const ContactSchema = Joi.object({
   name: Joi.string().min(3).max(20).required(),
   phoneNumber: Joi.string().min(10).max(13).required(),
-  email: Joi.string().email(),
+  email: Joi.string().email().required(),
   age: Joi.number().integer().min(6).max(16),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid(...contactTypeList),
-  photo: Joi.string().uri().optional(),
 });
 
 export const patchContactSchema = Joi.object({
@@ -18,5 +17,4 @@ export const patchContactSchema = Joi.object({
   age: Joi.number().integer().min(6).max(16),
   isFavourite: Joi.boolean(),
   contactType: Joi.string(),
-  photo: Joi.string().uri().optional(),
-});
+}).min(1);
