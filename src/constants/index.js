@@ -1,4 +1,4 @@
-import * as path from 'node:path';
+import path from 'node:path';
 
 export const SORT_ORDER = ['asc', 'desc'];
 
