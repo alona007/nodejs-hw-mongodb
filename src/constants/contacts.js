@@ -1,1 +1,1 @@
-export const contactTypeList = ['work', 'home', 'personal'];
+export const enumList = ['work', 'home', 'personal'];

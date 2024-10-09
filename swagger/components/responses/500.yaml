@@ -1,4 +1,4 @@
-description: Not Found error
+description: Internal Server Error
 content:
   application/json:
     schema:
@@ -9,7 +9,7 @@ content:
       properties:
         status:
           type: integer
-          example: 404
+          example: 500
         message:
           type: string
-          example: 'The requested resource was not found'
+          example: 'Something went wrong'

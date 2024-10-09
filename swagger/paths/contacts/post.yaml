@@ -1,3 +1,5 @@
+#/swagger/paths/students/post.yaml
+
 tags:
   - Contacts
 summary: Create contact
@@ -13,28 +15,33 @@ requestBody:
         required:
           - name
           - phoneNumber
-          - email
+          - isFavorite
+          - contactType
         properties:
           name:
             description: "Contact's name"
             type: string
             example: 'John Doe'
           phoneNumber:
-            description: "Contact's phone number"
+            description: "Contacts's number"
             type: number
-            example: '+380000000002'
+            example: 0501894397
+          isFavorite:
+            description: "Is contacts's favorite"
+            type: boolean
+            example: false
+          contactType:
+            description: "Contact's type"
+            type: string
+            enum: ['work', 'home', 'personal']
           email:
             description: "Contact's email"
             type: string
-            example: 'test@example.com'
-          contactType:
-            description: 'Type of contact'
+            example: example@gmail.com
+          userId:
+            description: "Contact's user id"
             type: string
-            enum: ['work', 'home', 'personal']
-          isFavourite:
-            description: 'Whether is contact favourite. Should be true or false'
-            type: boolean
-            example: false
+            example: 65e4decdd286b30065d54af9
           photo:
             description: "Contact's photo"
             type: string
@@ -59,8 +66,6 @@ responses:
               example: Successfully created a contact!
             data:
               type: object
-              $ref: ..\components\schemas\contact.yaml
+              $ref: ../../components/schemas/contact.yaml
   '401':
-    $ref: ..\components\responses\401.yaml
-  '404':
-    $ref: ..\components\responses\404.yaml
+    $ref: '../../components/responses/401.yaml'

@@ -2,7 +2,7 @@ tags:
   - Contacts
 summary: Get list of contacts
 operationId: getContacts
-description: 'Get list of users with this endpoint'
+description: 'Get list of contacts with this endpoint'
 security:
   - bearerAuth: []
 parameters:
@@ -20,7 +20,8 @@ parameters:
     name: sortBy
     schema:
       type: string
-      example: '_id'
+      example: 'age'
+    description: "All contact's fields can be mentioned. Default value - _id"
   - in: query
     name: sortOrder
     schema:
@@ -48,7 +49,7 @@ responses:
             data:
               type: object
               required:
-                - contacts
+                - data
                 - page
                 - perPage
                 - totalItems
@@ -56,10 +57,10 @@ responses:
                 - hasNextPage
                 - hasPreviousPage
               properties:
-                contacts:
+                data:
                   type: array
                   items:
-                    $ref: ..\components\schemas\contact.yaml
+                    $ref: '../../components/schemas/contact.yaml'
                 page:
                   type: number
                   example: 2
@@ -79,4 +80,4 @@ responses:
                   type: boolean
                   example: true
   '401':
-    $ref: ..\components\responses\401.yaml
+    $ref: '../../components/responses/401.yaml'
