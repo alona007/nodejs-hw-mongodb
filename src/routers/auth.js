@@ -4,7 +4,7 @@ import { requestResetEmailSchema } from '../validation/auth.js';
 import { resetPasswordSchema } from '../validation/auth.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
-import { userSigninSchema, userSignupSchema } from '../validation/users.js';
+import { userSigninSchema, userSignupSchema } from '../validation/Users.js';
 const authRouter = Router();
 
 authRouter.post(
