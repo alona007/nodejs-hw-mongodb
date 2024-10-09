@@ -47,7 +47,7 @@ export const getAllContactsByIdController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: `Contact with ${id} successfully find`,
+    message: `Contact with ${id} successfully found`,
     data,
   });
 };
@@ -71,7 +71,7 @@ export const addContactController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: 'Contact add successfully!',
+    message: 'Contact added successfully!',
     data,
   });
 };
@@ -79,6 +79,7 @@ export const addContactController = async (req, res) => {
 export const upsertContactController = async (req, res, next) => {
   const { id } = req.params;
   const { _id: userId } = req.user;
+
   const { isNew, data } = await ContactsServices.updateContact(
     { _id: id, userId },
     req.body,
@@ -86,19 +87,24 @@ export const upsertContactController = async (req, res, next) => {
       upsert: true,
     }
   );
+
   if (!data) {
     next(createHttpError(404, 'Contact not found'));
     return;
   }
+
   const status = isNew ? 201 : 200;
   res.status(status).json({
     status,
-    message: 'Contact upsert successfully!',
+    message: 'Contact upserted successfully!',
     data,
   });
 };
 
 export const patchContactController = async (req, res, next) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+
   let photo;
   if (req.file) {
     if (enableCloudinary === 'true') {
@@ -108,21 +114,19 @@ export const patchContactController = async (req, res, next) => {
     }
   }
 
-  const { _id: userId } = req.user;
-  const result = await ContactsServices.createContact({
-    ...req.body,
-    userId,
-    photo,
-  });
+  const updatedContact = await ContactsServices.updateContact(
+    { _id: id, userId },
+    { ...req.body, photo }
+  );
 
-  if (!result) {
-    next(createHttpError(404, 'Contact not found'));
-    return;
+  if (!updatedContact) {
+    return next(createHttpError(404, 'Contact not found'));
   }
+
   res.json({
     status: 200,
     message: 'Contact patched successfully!',
-    data: result.data,
+    data: updatedContact,
   });
 };
 
@@ -137,5 +141,6 @@ export const deleteContactController = async (req, res) => {
   if (!data) {
     throw createHttpError(404, `Contact with id=${id} not found`);
   }
+
   res.status(204).send();
 };

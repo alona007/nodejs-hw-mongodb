@@ -8,11 +8,8 @@ import { sendEmail } from '../utils/sendMail.js';
 import handlebars from 'handlebars';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-
 import { randomBytes } from 'crypto';
-
 import SessionCollection from '../db/models/Session.js';
-
 import {
   accessTokenLifetime,
   refreshTokenLifetime,
@@ -36,7 +33,7 @@ export const signup = async payload => {
   const { email, password } = payload;
   const user = await UserCollection.findOne({ email });
   if (user) {
-    throw createHttpError(409, 'Email already exist');
+    throw createHttpError(409, 'Email already exists');
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const data = await UserCollection.create({
@@ -61,17 +58,10 @@ export const signin = async payload => {
 
   await SessionCollection.deleteOne({ userId: user._id });
 
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
-  const accessTokenValidUntil = new Date(Date.now() + accessTokenLifetime);
-  const refreshTokenValidUntil = new Date(Date.now() + refreshTokenLifetime);
-
+  const session = createSession();
   const userSession = await SessionCollection.create({
     userId: user._id,
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil,
-    refreshTokenValidUntil,
+    ...session,
   });
 
   return userSession;
@@ -92,7 +82,6 @@ export const refreshSession = async ({ refreshToken, sessionId }) => {
 
   const isSessionTokenExpired =
     new Date() > new Date(oldSession.refreshTokenValidUntil);
-
   if (isSessionTokenExpired) {
     throw createHttpError(401, 'Session token expired!');
   }
@@ -117,6 +106,7 @@ export const requestResetToken = async email => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+
   const resetToken = jwt.sign(
     {
       sub: user._id,
@@ -132,15 +122,13 @@ export const requestResetToken = async email => {
     TEMPLATES_DIR,
     'reset-password-email.html'
   );
-
   const templateSource = (
     await fs.readFile(resetPasswordTemplatePath)
   ).toString();
-
   const template = handlebars.compile(templateSource);
   const html = template({
     name: user.name,
-    link: `${env('APP_DOMAIN')}}/reset-password?token=${resetToken}`,
+    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
 
   await sendEmail({
@@ -151,6 +139,7 @@ export const requestResetToken = async email => {
   });
 };
 
+// Функція для скидання пароля
 export const resetPassword = async payload => {
   let entries;
 
@@ -171,7 +160,6 @@ export const resetPassword = async payload => {
   }
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
-
   await UserCollection.updateOne(
     { _id: user._id },
     { password: encryptedPassword }
