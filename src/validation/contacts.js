@@ -1,24 +1,20 @@
 import Joi from 'joi';
-import { contactTypeList } from '../constants/contacts.js';
+import { enumList } from '../constants/contacts.js';
 
-export const ContactSchema = Joi.object({
+export const contactAddSchema = Joi.object({
   name: Joi.string().min(3).max(20).required(),
-  phoneNumber: Joi.string().min(10).max(13).required(),
-  email: Joi.string().email().optional(),
-  age: Joi.number().integer().min(6).max(16).optional(),
-  isFavourite: Joi.boolean().optional(),
+  phoneNumber: Joi.string().min(3).max(20).required(),
+  email: Joi.string().email(),
+  isFavorite: Joi.boolean(),
   contactType: Joi.string()
-    .valid(...contactTypeList)
-    .optional(),
+    .valid(...enumList)
+    .required(),
 });
 
-export const patchContactSchema = Joi.object({
-  name: Joi.string().min(3).max(20).optional(),
-  phoneNumber: Joi.string().min(10).max(13).optional(),
-  email: Joi.string().email().optional(),
-  age: Joi.number().integer().min(6).max(16).optional(),
-  isFavourite: Joi.boolean().optional(),
-  contactType: Joi.string()
-    .valid(...contactTypeList)
-    .optional(),
+export const contactUpdateSchema = Joi.object({
+  name: Joi.string().min(3).max(20),
+  phoneNumber: Joi.string().min(3).max(20),
+  email: Joi.string().email(),
+  isFavorite: Joi.boolean(),
+  contactType: Joi.string().valid(...enumList),
 }).min(1);

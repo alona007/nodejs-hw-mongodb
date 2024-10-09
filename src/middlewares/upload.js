@@ -5,16 +5,15 @@ import createHttpError from 'http-errors';
 const storage = multer.diskStorage({
   destination: TEMP_UPLOAD_DIR,
   filename: (req, file, callback) => {
-    const uniquePreffix = `${Date.now()}_${Math.round(Math.random() * 1e9)}`;
-    const filename = `${uniquePreffix}_${file.originalname}`;
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const filename = `${uniqueSuffix}_${file.originalname}`;
+
     callback(null, filename);
   },
 });
-
 const limits = {
   fileSize: 1024 * 1024 * 5,
 };
-
 const fileFilter = (req, file, callback) => {
   const extension = file.originalname.split('.').pop();
   if (extension === 'exe') {
@@ -22,11 +21,9 @@ const fileFilter = (req, file, callback) => {
   }
   callback(null, true);
 };
-
 const upload = multer({
   storage,
   limits,
   fileFilter,
 });
-
 export default upload;

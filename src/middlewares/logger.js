@@ -1,8 +1,7 @@
 import pino from 'pino-http';
-const loggerHandler = pino({
+const logger = pino({
   transport: {
     target: 'pino-pretty',
   },
 });
-
-export default loggerHandler;
+export default logger;
