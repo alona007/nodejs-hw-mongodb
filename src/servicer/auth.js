@@ -139,7 +139,6 @@ export const requestResetToken = async email => {
   });
 };
 
-// Функція для скидання пароля
 export const resetPassword = async payload => {
   let entries;
 
