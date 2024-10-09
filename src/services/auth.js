@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-
 import jwt from 'jsonwebtoken';
 import handlebars from 'handlebars';
 import path from 'node:path';
@@ -9,7 +8,6 @@ import createHttpError from 'http-errors';
 import { randomBytes } from 'crypto';
 import { env } from '../utils/env.js';
 import { TEMPLATES_DIR } from '../constants/index.js';
-
 import SessionCollection from '../db/models/Session.js';
 import UserCollection from '../db/models/User.js';
 
@@ -18,7 +16,7 @@ import {
   refreshTokenLifetime,
 } from '../constants/user.js';
 
-export const requestResetToken = async (email) => {
+export const requestResetToken = async email => {
   const user = await UserCollection.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found');
@@ -92,7 +90,7 @@ const createSession = () => {
   };
 };
 
-export const signup = async (payload) => {
+export const signup = async payload => {
   const { email, password } = payload;
   const user = await UserCollection.findOne({ email });
   if (user) {
@@ -106,7 +104,7 @@ export const signup = async (payload) => {
 
   return data;
 };
-export const signin = async (payload) => {
+export const signin = async payload => {
   const { email, password } = payload;
 
   const user = await UserCollection.findOne({ email });
@@ -127,7 +125,7 @@ export const signin = async (payload) => {
   });
   return userSession;
 };
-export const findSessionByAccessToken = (accessToken) =>
+export const findSessionByAccessToken = accessToken =>
   SessionCollection.findOne({ accessToken });
 export const refreshSession = async ({ refreshToken, sessionId }) => {
   const oldSession = await SessionCollection.findOne({
@@ -150,8 +148,8 @@ export const refreshSession = async ({ refreshToken, sessionId }) => {
   return userSession;
 };
 
-export const signout = async (sessionId) => {
+export const signout = async sessionId => {
   await SessionCollection.deleteOne({ _id: sessionId });
 };
 
-export const findUser = (filter) => UserCollection.findOne(filter);
+export const findUser = filter => UserCollection.findOne(filter);
