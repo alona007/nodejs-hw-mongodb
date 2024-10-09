@@ -13,7 +13,6 @@ export const requestResetEmailController = async (req, res, next) => {
     const resetUrl = `${process.env.APP_DOMAIN}/reset-password?token=${token}`;
 
     await authServices.sendResetEmail(email, resetUrl);
-
     res.json({
       message: 'Reset password email was successfully sent!',
       status: 200,
