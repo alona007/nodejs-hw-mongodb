@@ -5,7 +5,6 @@ import { env } from './utils/env.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import errorHandler from './middlewares/errorHandler.js';
 import logger from './middlewares/logger.js';
-
 import authRouter from './routers/auth.js';
 import contactsRouter from './routers/contacts.js';
 import swaggerDocs from './middlewares/swaggerDocs.js';
