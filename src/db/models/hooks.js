@@ -5,4 +5,3 @@ export const handleSaveError = (error, data, next) => {
 
   next();
 };
-
