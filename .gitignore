@@ -1,10 +1,7 @@
 /node_modules
+
 .env
+
 .vscode
 .DS_Store
 .idea
-npm-debug.log
-yarn-error.log
-/dist
-/build
-*.log

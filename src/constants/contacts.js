@@ -1,1 +1,3 @@
-export const enumList = ['work', 'home', 'personal'];
+export const contactList = ["personal", "home"];
+
+// export const createdAtRegexp = /^\d{4}$/;

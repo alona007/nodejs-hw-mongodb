@@ -1,5 +1,3 @@
-#/swagger/paths/students/post.yaml
-
 tags:
   - Contacts
 summary: Create contact
@@ -15,7 +13,6 @@ requestBody:
         required:
           - name
           - phoneNumber
-          - isFavorite
           - contactType
         properties:
           name:
@@ -23,27 +20,28 @@ requestBody:
             type: string
             example: 'John Doe'
           phoneNumber:
-            description: "Contacts's number"
-            type: number
-            example: 0501894397
-          isFavorite:
-            description: "Is contacts's favorite"
-            type: boolean
-            example: false
-          contactType:
-            description: "Contact's type"
+            description: "Contact's phone number"
             type: string
-            enum: ['work', 'home', 'personal']
+            example: 324-84-15
           email:
             description: "Contact's email"
             type: string
-            example: example@gmail.com
-          userId:
-            description: "Contact's user id"
+            example: rudolf@mail.com
+          isFavorite:
+            description: 'Favorite contact'
+            type: boolean
+            example: true
+          contactType:
+            description: 'Which group contact belongs to'
             type: string
-            example: 65e4decdd286b30065d54af9
+            enum: ['work', 'home', 'personal']
+            example: 'work'
+          userId:
+            description: "Contact's parent id"
+            type: string
+            example: 66fe6d0b5b7ffb5c70dfd498
           photo:
-            description: "Contact's photo"
+            description: "Link to contact's photo"
             type: string
             format: binary
 responses:
@@ -66,6 +64,6 @@ responses:
               example: Successfully created a contact!
             data:
               type: object
-              $ref: ../../components/schemas/contact.yaml
+              $ref: '../components/schemas/contact.yaml'
   '401':
-    $ref: '../../components/responses/401.yaml'
+    $ref: '../components/responses/401.yaml'
