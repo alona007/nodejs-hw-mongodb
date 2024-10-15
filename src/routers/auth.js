@@ -2,14 +2,14 @@ import { Router } from 'express';
 import * as authControllers from '../controllers/auth.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 import validateBody from '../utils/validateBody.js';
-import { resetPasswordSchema } from '../validation/users.js';
+import { resetPasswordSchema } from '../validation/Users1.js';
 import { resetPasswordController } from '../controllers/auth.js';
 
 import {
   userSignupSchema,
   userSigninSchema,
   requestResetEmailSchema,
-} from '../validation/users.js';
+} from '../validation/Users1.js';
 
 const authRouter = Router();
 
