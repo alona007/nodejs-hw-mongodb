@@ -1,11 +1,12 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: My contacts app
+  title: Contacts Book
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: This application provides functionality to manage contacts and user authentication.
+  description:
+    contact app project
 tags:
   - name: Contacts
     description: Operations about contacts.
@@ -13,20 +14,23 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://contacts-app-3lrz.onrender.com
+  - url: https://nodejs-hw-mongodb-7-jzi1.onrender.com
 paths:
-  /contacts:
-    get:
-      $ref: ../swagger/paths/contacts/get.yaml
-    post:
-      $ref: ../swagger/paths/contacts/post.yaml
   /contacts/{contactId}:
-    get:
-      $ref: ../swagger/paths/contacts/{id}/get.yaml
-    patch:
-      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+    get: 
+      $ref: ../swagger/path/{id}/get.yaml
     delete:
-      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+      $ref: ../swagger/path/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/path/{id}/patch.yaml
+
+  /contacts:
+    post:
+      $ref: ../swagger/path/post.yaml
+    get:
+      $ref: ../swagger/path/get.yaml
+            
+
 components:
   securitySchemes:
     bearerAuth:
