@@ -5,8 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description:
-    contact app project
+  description: contact app project
 tags:
   - name: Contacts
     description: Operations about contacts.
@@ -14,7 +13,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://nodejs-hw-mongodb-5-pwl1.onrender.com
+  - url: https://nodejs-hw-mongodb-7-jzi1.onrender.com
 paths:
   /contacts/{contactId}:
     get:
@@ -29,7 +28,6 @@ paths:
       $ref: ../swagger/path/post.yaml
     get:
       $ref: ../swagger/path/get.yaml
-
 
 components:
   securitySchemes:
