@@ -1,10 +1,6 @@
 import createHttpError from 'http-errors';
-<<<<<<< Updated upstream
-
-=======
 import swaggerUI from 'swagger-ui-express';
 import fs from 'node:fs';
->>>>>>> Stashed changes
 import { SWAGGER_PATH } from '../constants/index.js';
 
 export const swaggerDocuments = (req, res, next) => {
